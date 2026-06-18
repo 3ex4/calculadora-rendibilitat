@@ -31,19 +31,39 @@ let costCredits=credit*creditsdia*dies;
 let netFinal=net4-costCredits;
 let rendFinal=(netFinal/capital)*100;
 
+function formatEuro(valor) {
+    return valor.toLocaleString('ca-ES', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }) + ' €';
+}
+function formatEuroColor(valor) {
+    const classe = valor >= 0 ? "valor positiu" : "valor negatiu";
+
+    return `<span class="${classe}">
+        ${valor.toLocaleString('ca-ES', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        })} €
+    </span>`;
+}
 res.innerHTML=`
-<tr><td>Capital brut</td><td>${capitalBrut.toFixed(2)} €</td></tr>
-<tr><td>Guany brut</td><td>${guanyBrut.toFixed(2)} €</td></tr>
-<tr><td>Comissió</td><td>${comissio.toFixed(2)} €</td></tr>
-<tr><td>IVA</td><td>${ivaImp.toFixed(2)} €</td></tr>
-<tr><td>Tram IRPF aplicat</td><td>${tipus}%</td></tr>
-<tr><td>IRPF</td><td>${irpf.toFixed(2)} €</td></tr>
-<tr><td>Cost cloud anual</td><td>${cloudAnual.toFixed(2)} €</td></tr>
-<tr><td>Cost crèdits anual</td><td>${costCredits.toFixed(2)} €</td></tr>
-<tr><td>Benefici net final</td><td>${netFinal.toFixed(2)} €</td></tr>
-<tr><td>Rendibilitat final</td><td>${rendFinal.toFixed(2)} %</td></tr>`;
+<tr><td>Capital brut</td><td>${formatEuroColor(capitalBrut)}</td></tr>
+<tr><td>Guany brut</td><td>${formatEuroColor(guanyBrut)}</td></tr>
+<tr><td>Comissió</td><td>${formatEuroColor(comissio)}</td></tr>
+<tr><td>IVA</td><td>${formatEuroColor(ivaImp)}</td></tr>
+<tr><td>Tram IRPF aplicat</td><td class="percentatge">${tipus}%</td></tr>
+<tr><td>IRPF</td><td>${formatEuroColor(irpf)}</td></tr>
+<tr><td>Cost cloud anual</td><td>${formatEuroColor(cloudAnual)}</td></tr>
+<tr><td>Cost crèdits anual</td><td>${formatEuroColor(costCredits)}</td></tr>
+<tr><td>Benefici net final</td><td>${formatEuroColor(netFinal)}</td></tr>
+<tr><td>Rendibilitat final</td>
+<td class="percentatge ${rendFinal>=0?'positiu':'negatiu'}">
+${rendFinal.toFixed(2)} %
+</td></tr>`;
 }
 
 const capitalEl=capital,rendEl=rend,comEl=com,ivaEl=iva,cloudEl=cloud,creditEl=credit,diesEl=dies,creditsdiaEl=creditsdia;
 document.querySelectorAll('input').forEach(i=>i.addEventListener('input',calc));
 calc();
+
