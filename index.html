@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Rendibilitat</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Calculadora de Rendibilitat</h1>
+
+<div class="grid">
+<label class="green">Capital inicial (€)<input id="capital" type="number" value="15000"></label>
+
+<label class="yellow">Rendiment anual (%)<input id="rend" type="number" value="80"></label>
+<label class="yellow">Comissió (%)<input id="com" type="number" value="50"></label>
+<label class="yellow">IVA (%)<input id="iva" type="number" value="21"></label>
+<label class="yellow">Cloud mensual (€)<input id="cloud" type="number" value="150"></label>
+<label class="yellow">Cost crèdit (€)<input id="credit" type="number" value="1"></label>
+<label class="yellow">Dies mercat obert<input id="dies" type="number" value="250"></label>
+<label class="yellow">Crèdits diaris<input id="creditsdia" type="number" value="2"></label>
+</div>
+
+<table>
+<tbody id="res"></tbody>
+</table>
+
+<script src="script.js"></script>
+</body>
+</html>

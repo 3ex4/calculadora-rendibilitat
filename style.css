@@ -1,0 +1,8 @@
+body{font-family:Arial,sans-serif;max-width:900px;margin:auto;padding:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+label{display:block;padding:10px;border-radius:6px}
+.green{background:#b6f0b6}
+.yellow{background:#fff4a8}
+input{width:100%;margin-top:5px}
+table{width:100%;margin-top:20px;border-collapse:collapse}
+td{border:1px solid #ccc;padding:8px}
