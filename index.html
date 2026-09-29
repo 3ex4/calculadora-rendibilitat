@@ -1,30 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ca">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Calculadora de Rendibilitat</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102a43">
+  <title>Calculadora de rendibilitat</title>
+  <link rel="stylesheet" href="./estils.css">
 </head>
 <body>
-<h1>Calculadora de Rendibilitat</h1>
-
-<div class="grid">
-<label class="green">Capital inicial (€)<input id="capital" type="number" value="15000"></label>
-
-<label class="yellow">Rendiment anual (%)<input id="rend" type="number" value="80"></label>
-<label class="yellow">Comissió (%)<input id="com" type="number" value="50"></label>
-<label class="yellow">IVA (%)<input id="iva" type="number" value="21"></label>
-<label class="yellow">Cloud mensual (€)<input id="cloud" type="number" value="150"></label>
-<label class="yellow">Cost crèdit (€)<input id="credit" type="number" value="1"></label>
-<label class="yellow">Dies mercat obert<input id="dies" type="number" value="250"></label>
-<label class="yellow">Crèdits diaris<input id="creditsdia" type="number" value="2"></label>
-</div>
-
-<table>
-<tbody id="res"></tbody>
-</table>
-
-<script src="script.js"></script>
-</body>
-</html>
+  <header class="capcalera"><div class="contenidor">
+    <p class="sobretitol">Inversió · estimació anual</p>
+    <h1>Calculadora de rendibilitat</h1>
+    <p>Modifica les variables i consulta el resultat a l’instant.</p>
+  </div></header>
+  <main class="contenidor">
+    <nav aria-label="Seccions"><a href="#variables">Variables</a><a href="#resultats">Resultats</a><a href="#trams">Edita la taula d’IRPF 2025</a></nav>
+    <div class="distribucio">
+      <section class="targeta" id="variables" aria-labelledby="titol-variables">
+        <div class="cap-seccio"><div><p class="etiqueta">01 · Entrades</p><h2 id="titol-variables">Variables de la inversió</h2></div><button type="button" class="secundari" id="restaura">Restableix</button></div>
+        <form id="formulari" novalidate>
+          <div class="camps">
+            <label class="principal">Capital inicial <span>€</span><input name="capital" type="number" min="0.01" step="any" required></label>
+            <label>Rendiment anual <span>%</span><input name="rendiment" type="number" min="0" step="any" required></label>
+            <label>Comissió sobre el rendiment <span>%</span><input name="comissio" type="number" min="0" max="100" step="any" required></label>
+            <label>IVA de la comissió <span>%</span><input name="iva" type="number" min="0" max="100" step="any" required></label>
+            <label>Claud service mensual <span>€ / mes</span><input name="claud" type="number" min="0" step="any" required></label>
+            <label>Dies de mercat obert <span>dies</span><input name="dies" type="number" min="0" step="any" required></label>
+            <label>Cost bròquer per operació <span>€</span><input name="broker" type="number" min="0" step="any" required></label>
+            <label>Nombre d’actius en cartera <span>actius</span><input name="actius" type="number" min="0" step="any" required></label>
+            <label>Preu unitari dels crèdits <span>€</span><input name="creditPreu" type="number" min="0" step="any" required></label>
+            <label>Crèdits necessaris per operar diàriament <span>crèdits</span><input name="creditsDia" type="number" min="0" step="any" required></label>
+          </div>
+        </form>
+      </section>
+      <section class="targeta resultats" id="resultats" aria-labelledby="titol-resultats">
+        <p class="etiqueta">02 · Resultat</p><h2 id="titol-resultats">Rendibilitat final</h2>
+        <div class="destacat"><span>Rendibilitat anual</span><strong id="rendibilitat">—</strong><span>Net anual <b id="netFinal">—</b></span></div>
+        <div id="error" class="error" role="alert" hidden></div>
+        <dl class="resum">
+          <div><dt>Net mensual final</dt><dd id="netMensual">—</dd></div>
+          <div><dt>Rendiment anual brut</dt><dd id="rendimentEuro">—</dd></div>
+          <div><dt>IRPF aplicat</dt><dd id="irpfTipus">—</dd></div>
+          <div><dt>IRPF a pagar</dt><dd id="irpfEuro">—</dd></div>
+          <div><dt>Comissió amb IVA</dt><dd id="comissioTotal">—</dd></div>
+          <div><dt>Claud service anual</dt><dd id="claudAnual">—</dd></div>
+          <div><dt>Bròquer anual</dt><dd id="brokerAnual">—</dd></div>
+          <div><dt>Crèdits anuals</dt><dd id="creditsAnual">—</dd></div>
+        </dl>
+      </section>
+    </div>
+    <section class="targeta detall" aria-labelledby="titol-detall"><p class="etiqueta">03 · Desglossament</p><h2 id="titol-detall">Del capital al net final</h2>
+      <div class="taula-scroll"><table><thead><tr><th scope="col">Concepte</th><th scope="col">Càlcul</th><th scope="col">Import</th></tr></thead><tbody id="detall"></tbody></table></div>
+    </section>
+    <section class="targeta trams" id="trams" aria-labelledby="titol-trams"><div class="cap-seccio"><div><p class="etiqueta">04 · Taula editable</p><h2 id="titol-trams">Trams de l’IRPF 2025</h2></div><button type="button" class="secundari" id="afegeix">Afegeix un tram</button></div>
+      <p class="nota">S’aplica el percentatge del tram corresponent a tot el rendiment anual, tal com fa l’Excel original (cerca aproximada). Aquesta taula és un paràmetre de la calculadora, no un càlcul progressiu d’impostos.</p>
+      <div class="taula-scroll"><table><thead><tr><th scope="col">A partir de (€)</th><th scope="col">Tipus (%)</th><th scope="col">Acció</th></tr></thead><tbody id="files-trams"></tbody></table></div>
+      <p class="nota">Valors inicials copiats del full. <a href="https://www.finect.com/usuario/Josetrecet/articulos/dime_en_que_inviertes_y_te_dire_cuantos_impuestos_pagas" target="_blank" rel="noopener noreferrer">Enllaç de referència inclòs a l’Excel ↗</a></p>
+    </section>
+    <footer>Els valors s’emmagatzemen només en aquest navegador. Les xifres es mostren arrodonides, però els càlculs mantenen els decimals.</footer>
+  </main>
+  <script type="module" src="./app.mjs"></script>
+</body></html>
